@@ -47,7 +47,6 @@ namespace AutomatonAssignment1
             TestWithString(m, "abbbbbbbbab", true);
             TestWithString(m, "abbababa", false);
 
-
             // TODO Add your own DFAs and test them with your own sequences
 
         }

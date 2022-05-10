@@ -11,14 +11,14 @@ namespace AutomatonAssignment1
     /// This is a template class to allow for different state types, e.g. tuples when two (N)DFA's are combined into one
     /// </summary>
     /// <typeparam name="T">Substitute a suitable type for a state in the (N)DFA as T (such as char, string, or a tuple)</typeparam>
-    class Automaton<T> where T : IComparable<T>
+    public class Automaton<T> where T : IComparable<T>
     {
         private ISet<Transition<T>> transitions;
         private SortedSet<T> states;
         private SortedSet<T> startStates;
         private SortedSet<T> finalStates;
         private SortedSet<char> symbols; 
-
+        
         /// <summary>
         /// Create an empty DFA (no alfabet, no states, no transitions)
         /// </summary>
@@ -256,8 +256,14 @@ namespace AutomatonAssignment1
         public ISet<T> GetToStates(T from, char symbol)
         {
             SortedSet<T> states = new SortedSet<T>();
-            // TODO Write code that returns the correct set of states
-
+            foreach (var trans in this.transitions)
+            {
+                if(trans.GetFromState().Equals(from) && trans.GetSymbol().Equals(symbol))
+                {
+                    states.Add(trans.GetToState());
+                }
+            }
+            //states = transitions.Where(e => e.GetFromState().Equals(from) && e.GetSymbol().Equals(symbol)).Select(e => e.GetToState()).ToHashSet();
             return states;
         }
 
@@ -275,15 +281,29 @@ namespace AutomatonAssignment1
                 return false;
             }
 
-            // TODO HARDCODED
-            return true;
-
-            // This implementation is only for DFAs, throws an exception as soon as
-            // multiple to states are encountered
+            bool accepted = false;
             T currentState = startStates.First<T>(); // Assume DFA, so only one start state
-            Console.WriteLine($"Accept sequence {sequence}, start at state {currentState}");
-            // TODO Write the code that follows the transitions according to the symbols in the sequence
-            // and returns true if the last state is one of the final states
+            
+            for (int i = 0; i < sequence.Length; i++)
+            {
+                ISet<T> nextStates = GetToStates(currentState, sequence[i]);
+                
+                if(nextStates.Count > 1 || nextStates.Count == 0)
+                {
+                    throw new Exception($"The DFA acceptor failed! Zero or more than one transitions for character {sequence[i]} in state {currentState}.");
+                }
+
+                currentState = nextStates.First<T>();
+
+                if (i == sequence.Length - 1)
+                {
+                    if (this.finalStates.Contains(currentState))
+                    {
+                        accepted = true;
+                    }
+                }
+            }
+            return accepted;
         }
 
         ///// <summary>
