@@ -12,8 +12,31 @@
             <ColumnDefinition Width="2*"/>            
         </Grid.ColumnDefinitions>
         <RichTextBox x:Name="textBox" Grid.Column="0"/>
-        <Grid Grid.Column="1">
-            
+        <Grid Grid.Column="1" Name="toolGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="radioButtonLabelGrid" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Words" Grid.Column="0" HorizontalAlignment="Center"/>
+                <Label Content="Sentences" Grid.Column="1" HorizontalAlignment="Center"/>
+                <Label Content="Text" Grid.Column="2" HorizontalAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="radioButtonGrid" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="0"/>
+                <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="1"/>
+                <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="2"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

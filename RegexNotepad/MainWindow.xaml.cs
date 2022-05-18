@@ -23,6 +23,7 @@ namespace RegexNotepad
         public MainWindow()
         {
             InitializeComponent();
+            this.textBox.Focus();
         }
     }
 }
