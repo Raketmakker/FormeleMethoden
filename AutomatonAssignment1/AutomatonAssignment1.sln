@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomatonAssignment1", "AutomatonAssignment1.csproj", "{CA572004-ACE2-4EE2-9E0A-8A8D562AA514}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegexNotepad", "..\RegexNotepad\RegexNotepad.csproj", "{9D3CCE2C-E06D-4202-970C-6EEBDB4E5B1B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CA572004-ACE2-4EE2-9E0A-8A8D562AA514} = {CA572004-ACE2-4EE2-9E0A-8A8D562AA514}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

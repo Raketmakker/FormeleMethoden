@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RegexNotepad"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Regex Notepad" Height="720" Width="1280">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2*"/>            
+        </Grid.ColumnDefinitions>
+        <RichTextBox x:Name="textBox" Grid.Column="0"/>
+        <Grid Grid.Column="1">
+            
+        </Grid>
     </Grid>
 </Window>
