@@ -1,0 +1,12 @@
+Zoek in woorden, zinnen of de complete text een string die:
+-begint met
+-een substring bevat
+-eindigd op
+
+Replace text
+
+Met behulp van automata het:
+-aantal woorden tellen en in een list zetten
+-aantal zinnen tellen en in een list zetten
+
+Als er tijd over is: automata's samenvoegen.
