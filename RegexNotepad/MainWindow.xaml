@@ -14,8 +14,8 @@
         <RichTextBox x:Name="textBox" Grid.Column="0"/>
         <Grid Grid.Column="1" Name="toolGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid x:Name="radioButtonLabelGrid" Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -33,9 +33,9 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="0"/>
-                <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="1"/>
-                <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="10" Grid.Column="2"/>
+                <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="0" IsChecked="True"/>
+                <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="1"/>
+                <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="2"/>
             </Grid>
         </Grid>
     </Grid>
