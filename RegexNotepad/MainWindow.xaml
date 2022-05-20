@@ -3,15 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RegexNotepad"
+        xmlns:local="clr-namespace:RegexNotepad" xmlns:models="clr-namespace:RegexNotepad.Models" d:DataContext="{d:DesignInstance Type=models:DataModel}"
         mc:Ignorable="d"
+        
         Title="Regex Notepad" Height="720" Width="1280">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>            
         </Grid.ColumnDefinitions>
-        <RichTextBox x:Name="textBox" Grid.Column="0"/>
+        <TextBox x:Name="textBox" Grid.Column="0" Text="{Binding Text}"/>
         <Grid Grid.Column="1" Name="toolGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -33,9 +34,9 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="0" IsChecked="True"/>
-                <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="1"/>
-                <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="2"/>
+                <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="0" IsChecked="True" Command="{Binding SelectWords}"/>
+                <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="1" Command="{Binding SelectSentences}"/>
+                <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="2" Command="{Binding SelectText}"/>
             </Grid>
         </Grid>
     </Grid>
