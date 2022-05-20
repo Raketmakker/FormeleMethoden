@@ -53,7 +53,11 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.StartBoxChecked}"/>
                 <Label Content="Regex starts with:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox x:Name="startText" Margin="10" Grid.Column="2" Text="{Binding DataModel.StartText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="startText" Margin="10" Grid.Column="2" Text="{Binding DataModel.StartText}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding FindCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
             </Grid>
             <!--Contains field-->
             <Grid Grid.Row="3">
@@ -64,7 +68,11 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.ContainsBoxChecked}"/>
                 <Label Content="Regex contains:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox x:Name="containText" Margin="10" Grid.Column="2" Text="{Binding DataModel.ContainsText}"/>
+                <TextBox x:Name="containText" Margin="10" Grid.Column="2" Text="{Binding DataModel.ContainsText}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding FindCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
             </Grid>
             <!--Ends field-->
             <Grid Grid.Row="4">
@@ -75,7 +83,11 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.EndBoxChecked}"/>
                 <Label Content="Regex ends with:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBox Name="endText" Margin="10" Grid.Column="2" Text="{Binding DataModel.EndText}"/>
+                <TextBox Name="endText" Margin="10" Grid.Column="2" Text="{Binding DataModel.EndText}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding FindCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
             </Grid>
             <!--Clear and find buttons-->
             <Grid Grid.Row="5">
