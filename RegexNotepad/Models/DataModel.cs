@@ -10,5 +10,11 @@ namespace RegexNotepad.Models
         public enum TextType { words, sentences, text }
         public string Text { get; set; }
         public TextType Type { get; set; }
+        public bool StartBoxChecked { get; set; }
+        public string StartText { get; set; }
+        public bool ContainsBoxChecked { get; set; }
+        public string ContainsText { get; set; }
+        public bool EndBoxChecked { get; set; }
+        public string EndText { get; set; }
     }
 }

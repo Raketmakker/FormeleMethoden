@@ -12,13 +12,18 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>            
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="textBox" Grid.Column="0" Text="{Binding Text}"/>
+        <TextBox x:Name="textBox" Grid.Column="0" Text="{Binding DataModel.Text}"/>
         <Grid Grid.Column="1" Name="toolGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="radioButtonLabelGrid" Grid.Row="0">
+            <!--Radio button labels-->
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
@@ -28,7 +33,8 @@
                 <Label Content="Sentences" Grid.Column="1" HorizontalAlignment="Center"/>
                 <Label Content="Text" Grid.Column="2" HorizontalAlignment="Center"/>
             </Grid>
-            <Grid x:Name="radioButtonGrid" Grid.Row="1">
+            <!--Radio button field-->
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
@@ -37,6 +43,48 @@
                 <RadioButton Name="wordRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="0" IsChecked="True" Command="{Binding SelectWords}"/>
                 <RadioButton Name="sentenceRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="1" Command="{Binding SelectSentences}"/>
                 <RadioButton Name="textRadioBtn" HorizontalAlignment="Center" Margin="5" Grid.Column="2" Command="{Binding SelectText}"/>
+            </Grid>
+             <!--Start field-->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.StartBoxChecked}"/>
+                <Label Content="Regex starts with:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="startText" Margin="10" Grid.Column="2" Text="{Binding DataModel.StartText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <!--Contains field-->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.ContainsBoxChecked}"/>
+                <Label Content="Regex contains:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="containText" Margin="10" Grid.Column="2" Text="{Binding DataModel.ContainsText}"/>
+            </Grid>
+            <!--Ends field-->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Margin="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding DataModel.EndBoxChecked}"/>
+                <Label Content="Regex ends with:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox Name="endText" Margin="10" Grid.Column="2" Text="{Binding DataModel.EndText}"/>
+            </Grid>
+            <!--Clear and find buttons-->
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Margin="10" Grid.Column="0" Content="Clear" Command="{Binding ClearCommand}"/>
+                <Button Margin="10" Grid.Column="1" Content="Find" Command="{Binding FindCommand}"/>
             </Grid>
         </Grid>
     </Grid>

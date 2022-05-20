@@ -24,7 +24,8 @@ namespace RegexNotepad
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            MainWindowViewModel viewModel = new MainWindowViewModel(this.startText, this.containText, this.endText);
+            this.DataContext = viewModel;            
             this.textBox.Focus();
         }
     }
