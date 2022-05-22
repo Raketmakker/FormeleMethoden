@@ -12,7 +12,13 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="2*"/>            
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="textBox" Grid.Column="0" Text="{Binding DataModel.Text}"/>
+        <TextBox 
+            x:Name="textBox" 
+            Grid.Column="0" 
+            Text="{Binding DataModel.Text}"
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            VerticalScrollBarVisibility="Visible"/>
         <Grid Grid.Column="1" Name="toolGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

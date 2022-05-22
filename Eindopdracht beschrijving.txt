@@ -9,4 +9,10 @@ Met behulp van automata het:
 -aantal woorden tellen en in een list zetten
 -aantal zinnen tellen en in een list zetten
 
-Als er tijd over is: automata's samenvoegen.
+Als er tijd over is: automata's samenvoegen. 
+
+Find method:
+ASYNC -Verzamel alle woorden/zinnen/text
+ASYNC -Bouw automata
+await
+async tasks -Ga voor de regex door elk woord/zin/text

@@ -53,6 +53,12 @@ namespace RegexNotepad.ViewModels
             this.DataModel.Type = textType;
         }
 
+        /// <summary>
+        /// Verzamel text
+        /// Bouw automata
+        /// 
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         private void Find()
         {
             throw new NotImplementedException();
