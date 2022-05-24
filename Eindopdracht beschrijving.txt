@@ -16,3 +16,6 @@ ASYNC -Verzamel alle woorden/zinnen/text
 ASYNC -Bouw automata
 await
 async tasks -Ga voor de regex door elk woord/zin/text
+
+
+Implementeer het toevoegen van gevonden sequences, errorstates, successtates

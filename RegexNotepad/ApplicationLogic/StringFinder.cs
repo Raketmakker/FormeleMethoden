@@ -4,17 +4,11 @@ using System.Text;
 
 namespace RegexNotepad
 {
-    public abstract class TextFinder
+    public abstract class StringFinder
     {
-        private string SubString { get; set; }
-        private List<Tuple<string, int>> Searchables { get; set; }
+        protected List<Tuple<string, int>> Searchables { get; set; }
 
         public List<Tuple<string, int>> Occurrences { get; private set; }
-
-        public TextFinder(string subString)
-        {
-            SubString = subString;
-        }
 
         /// <summary>
         /// Create substrings of the text for words or sentences.
@@ -24,5 +18,19 @@ namespace RegexNotepad
         /// <param name="text"></param>
         public abstract void CreateSearchables(string text);
 
+        //public Automaton GenerateStartWithAutomaton(string startsWith)
+        //{
+            
+        //}
+
+        //public Automaton GenerateContainsAutomaton(string contains)
+        //{
+
+        //}
+
+        //public Automaton GenerateEndsWithAutomaton(string endsWith)
+        //{
+
+        //}
     }
 }
