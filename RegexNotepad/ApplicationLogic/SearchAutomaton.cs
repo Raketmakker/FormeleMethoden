@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RegexNotepad.ApplicationLogic
 {
@@ -110,37 +111,60 @@ namespace RegexNotepad.ApplicationLogic
         /// </summary>
         /// <param name="sequence">The sequence to be accepted (or not)</param>
         /// <returns>True if the sequence is accepted, false if it is not accepted</returns>
-        public bool AcceptDFAOnly(string sequence)
+        public async Task<List<Tuple<string, int>>> AcceptDFAOnly(Tuple<string, int> sequence)
         {
+            List<Tuple<string, int>> occurences = new List<Tuple<string, int>>();
+
             if (!IsDFA())
             {
                 Console.WriteLine($"The automata is not a DFA!");
-                return false;
+                return occurences;
             }
 
-            bool accepted = false;
-            T currentState = startStates.First<T>(); // Assume DFA, so only one start state
+            T currentState = startStates.First<T>();            
+            string foundSubstring = "";
+            int enterSuccesStateIndex = -1;
 
-            for (int i = 0; i < sequence.Length; i++)
+            for (int i = 0; i < sequence.Item1.Length; i++)
             {
-                ISet<T> nextStates = GetToStates(currentState, sequence[i]);
+                ISet<T> nextStates = GetToStates(currentState, sequence.Item1[i]);
 
                 if (nextStates.Count > 1 || nextStates.Count == 0)
                 {
-                    throw new Exception($"The DFA acceptor failed! Zero or more than one transitions for character {sequence[i]} in state {currentState}.");
+                    throw new Exception($"The DFA acceptor failed! Zero or more than one transitions for character {sequence.Item1[i]} in state {currentState}.");
                 }
 
-                currentState = nextStates.First<T>();
+                T nextState = nextStates.First<T>();
 
-                if (i == sequence.Length - 1)
+                //Ran into an error state. Return result
+                if (errorStates.Contains(nextState))
+                    return occurences;
+
+                //In succes state, add character to the string
+                if (succesStates.Contains(nextState))
                 {
-                    if (this.finalStates.Contains(currentState))
+                    foundSubstring += sequence.Item1[i];
+
+                    // Entered a successtate from not successtate
+                    if (!succesStates.Contains(currentState))
+                        enterSuccesStateIndex = i;
+
+                    //Save last occurence if it is in, or enters a successtate
+                    if (i == sequence.Item1.Length - 1)
+                        occurences.Add(new Tuple<string, int>(foundSubstring, enterSuccesStateIndex + sequence.Item2));
+                }
+                else
+                {
+                    //Transition from successtate to not successtate. Add the substring
+                    if (succesStates.Contains(currentState))
                     {
-                        accepted = true;
+                        occurences.Add(new Tuple<string, int>(foundSubstring, enterSuccesStateIndex + sequence.Item2));
+                        foundSubstring = "";
                     }
                 }
+                currentState = nextState;
             }
-            return accepted;
+            return occurences;
         }
 
         /// <summary>

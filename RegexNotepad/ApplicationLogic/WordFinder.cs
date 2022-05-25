@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RegexNotepad.ApplicationLogic
 {
     public class WordFinder : StringFinder
     {
-        public override void CreateSearchables(string text)
+        public async override Task CreateSearchablesAsync(string text)
         {
             SearchAutomaton<char> automaton = new SearchAutomaton<char>();
             

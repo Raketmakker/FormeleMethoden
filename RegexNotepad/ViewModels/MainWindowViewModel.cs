@@ -3,6 +3,8 @@ using Microsoft.Toolkit.Mvvm.Input;
 using RegexNotepad.ApplicationLogic;
 using RegexNotepad.Models;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using static RegexNotepad.Models.DataModel;
@@ -57,16 +59,23 @@ namespace RegexNotepad.ViewModels
         /// <summary>
         /// Verzamel text
         /// Bouw automata
-        /// 
+        ///     TODO:   Make it work for sentences, text. Combine automatons to search
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        private void Find()
+        private async void Find()
         {
+            StringFinder stringFinder = null;
+            
             if(this.DataModel.Type == TextType.words)
             {
-                WordFinder wordFinder = new WordFinder();
-                wordFinder.CreateSearchables(this.DataModel.Text);
+                stringFinder = new WordFinder();
+                
             }
+            
+            var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
+            var startWithTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
+            await Task.WhenAll(searchablesTask, startWithTask);
+            stringFinder.Find(startWithTask.Result);
         }
 
         private void Clear()
