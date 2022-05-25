@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using RegexNotepad.ApplicationLogic;
 using RegexNotepad.Models;
 using System;
 using System.Windows.Controls;
@@ -61,7 +62,11 @@ namespace RegexNotepad.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private void Find()
         {
-            throw new NotImplementedException();
+            if(this.DataModel.Type == TextType.words)
+            {
+                WordFinder wordFinder = new WordFinder();
+                wordFinder.CreateSearchables(this.DataModel.Text);
+            }
         }
 
         private void Clear()

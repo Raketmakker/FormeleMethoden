@@ -8,7 +8,7 @@ namespace RegexNotepad
     {
         protected List<Tuple<string, int>> Searchables { get; set; }
 
-        public List<Tuple<string, int>> Occurrences { get; private set; }
+        public List<Tuple<string, int>> Occurrences { get; protected set; }
 
         /// <summary>
         /// Create substrings of the text for words or sentences.
