@@ -79,9 +79,9 @@ namespace RegexNotepad.ViewModels
                 case TextType.words:
                     stringFinder = new WordFinder();
                     break;
-                //case TextType.sentences:
-                //    stringFinder = new SenteceFinder();
-                //    break;
+                case TextType.sentences:
+                    stringFinder = new SentenceFinder();
+                    break;
                 default:
                     stringFinder = new TextFinder();
                     break;
