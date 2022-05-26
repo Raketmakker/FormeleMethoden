@@ -64,18 +64,34 @@ namespace RegexNotepad.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private async void Find()
         {
-            StringFinder stringFinder = null;
-            
-            if(this.DataModel.Type == TextType.words)
+            if (this.DataModel.Text == null || 
+                (this.DataModel.StartText == null && 
+                this.DataModel.ContainsText == null && 
+                this.DataModel.EndText == null))
             {
-                stringFinder = new WordFinder();
-                
+                return;
+            }
+
+            StringFinder stringFinder = null;
+
+            switch (this.DataModel.Type)
+            {
+                case TextType.words:
+                    stringFinder = new WordFinder();
+                    break;
+                //case TextType.sentences:
+                //    stringFinder = new SenteceFinder();
+                //    break;
+                default:
+                    stringFinder = new TextFinder();
+                    break;
             }
             
             var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
             var startWithTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
             await Task.WhenAll(searchablesTask, startWithTask);
             stringFinder.Find(startWithTask.Result);
+            Console.WriteLine(stringFinder.Occurrences);
         }
 
         private void Clear()

@@ -1,4 +1,5 @@
 ﻿using RegexNotepad.ApplicationLogic;
+using RegexNotepad.Automaton;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,7 +39,12 @@ namespace RegexNotepad
             //Recursive error state
             automaton.AddTransition(new AdvancedTransition<char>('E', ' ', 'E', true));
 
+            //First state (0) is always the start state for a START WITH function
             automaton.DefineAsStartState('0');
+            //The sequence starts at state 0
+            automaton.DefineAsEnterState('0');
+            //The sequence exits at the length of the sequence - 1
+            automaton.DefineAsExitState(char.Parse((startsWith.Length - 1).ToString()));            
             automaton.DefineAsErrorState('E');
             automaton.DefineAsFinalState(finalState);
 
