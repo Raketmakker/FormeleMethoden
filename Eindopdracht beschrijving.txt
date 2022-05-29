@@ -17,6 +17,7 @@ ASYNC -Bouw automata
 await
 async tasks -Ga voor de regex door elk woord/zin/text
 
-
-Implementeer enter en exit states voor AcceptDFAOnly (je moet complete strings kunnen zoeken).
-Split de SearchAutomaton in een woordzoeker en in een sequence zoeker
+TODO:
+Kleur de occurences.
+Maak de 'contains' en 'ends with' functie.
+Combineer automata
