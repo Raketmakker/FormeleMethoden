@@ -76,7 +76,8 @@ namespace RegexNotepad
             {
                 Occurrences.AddRange(task.Result);
             }
-            Console.WriteLine(Occurrences);
+            foreach (var occurence in Occurrences)
+                System.Diagnostics.Debug.Write(occurence);
         }
     }
 }

@@ -91,7 +91,6 @@ namespace RegexNotepad.ViewModels
             var startWithTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
             await Task.WhenAll(searchablesTask, startWithTask);
             stringFinder.Find(startWithTask.Result);
-            Console.WriteLine(stringFinder.Occurrences);
         }
 
         private void Clear()
