@@ -65,15 +65,12 @@ namespace RegexNotepad.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private async void Find()
         {
-            if (this.DataModel.Text == null || 
-                (this.DataModel.StartText == null && 
-                this.DataModel.ContainsText == null && 
-                this.DataModel.EndText == null))
-            {
+            if (this.DataModel.Text == null)
                 return;
-            }
 
-            if((this.DataModel.StartBoxChecked || this.DataModel.ContainsBoxChecked || this.DataModel.EndBoxChecked) == false)
+            if (!(this.DataModel.StartText != null && this.DataModel.StartBoxChecked ||
+                this.DataModel.ContainsText != null && this.DataModel.ContainsBoxChecked ||
+                this.DataModel.EndText != null && this.DataModel.EndBoxChecked))
             {
                 return;
             }
@@ -93,7 +90,7 @@ namespace RegexNotepad.ViewModels
                     break;
             }
             var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
-            Task<SearchAutomaton<char>> searchTask = null;
+            Task<SearchAutomaton<int>> searchTask = null;
 
             if (this.DataModel.StartBoxChecked)
                 searchTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
