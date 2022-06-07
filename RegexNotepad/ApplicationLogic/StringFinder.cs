@@ -65,7 +65,7 @@ namespace RegexNotepad
         //    //Todo Return on same character hack
         //}
 
-        public async Task<SearchAutomaton<char>> GenerateEndsWithAutomaton(string endsWith)
+        public async Task<SearchAutomaton<char>> GenerateEndsWithAutomatonAsync(string endsWith)
         {
             var automaton = new SearchAutomaton<char>();
 
@@ -74,7 +74,7 @@ namespace RegexNotepad
                 //Transition from previous correct state to the next
                 automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[i], char.Parse((i + 1).ToString())));
                 
-                //Return state to start of sequence
+                //Return transition to start of sequence
                 if(endsWith[i] != endsWith[0])
                 {
                     automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[0], '1'));
@@ -84,6 +84,9 @@ namespace RegexNotepad
                 automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[i], '0', true));
 
             }
+
+            automaton.AddTransition(new AdvancedTransition<char>(char.Parse(endsWith.Length.ToString()), endsWith[0], '1'));
+            automaton.AddTransition(new AdvancedTransition<char>(char.Parse(endsWith.Length.ToString()), endsWith[0], '0', true));
 
             automaton.DefineAsStartState('0');
             automaton.DefineAsFinalState(char.Parse(endsWith.Length.ToString()));

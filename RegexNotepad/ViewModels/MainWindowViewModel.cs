@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using RegexNotepad.ApplicationLogic;
+using RegexNotepad.Automaton;
 using RegexNotepad.Models;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,11 @@ namespace RegexNotepad.ViewModels
                 return;
             }
 
+            if((this.DataModel.StartBoxChecked || this.DataModel.ContainsBoxChecked || this.DataModel.EndBoxChecked) == false)
+            {
+                return;
+            }
+
             StringFinder stringFinder = null;
 
             switch (this.DataModel.Type)
@@ -88,9 +94,15 @@ namespace RegexNotepad.ViewModels
             }
             var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
             // TODO GenerateContains & GenerateEndsWith functions
-            var startWithTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
-            await Task.WhenAll(searchablesTask, startWithTask);
-            stringFinder.Find(startWithTask.Result);
+            Task<SearchAutomaton<char>> searchTask = null;
+
+            if (this.DataModel.StartBoxChecked)
+                searchTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
+            else if (this.DataModel.EndBoxChecked)
+                searchTask = stringFinder.GenerateEndsWithAutomatonAsync(this.DataModel.EndText);
+
+            await Task.WhenAll(searchablesTask, searchTask);
+            stringFinder.Find(searchTask.Result);
         }
 
         private void Clear()
