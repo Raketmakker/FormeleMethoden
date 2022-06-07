@@ -51,20 +51,17 @@ namespace RegexNotepad.Automaton
         /// </summary>
         /// <param name="sequence">The sequence to be accepted (or not)</param>
         /// <returns>True if the sequence is accepted, false if it is not accepted</returns>
-        public async Task<List<Tuple<string, int>>> AcceptDFAOnly(Tuple<string, int> sequence)
+        public async Task<Tuple<string, int>> AcceptDFAOnly(Tuple<string, int> sequence)
         {
-            List<Tuple<string, int>> occurences = new List<Tuple<string, int>>();
+            List<Tuple<string, bool>> occurences = new List<Tuple<string, bool>>();
 
             if (!IsDFA())
             {
                 Console.WriteLine($"The automata is not a DFA!");
-                return occurences;
+                return null;
             }
 
             T currentState = startStates.First<T>();
-            string foundSubstring = "";
-            int enterSuccesStateIndex = -1;
-            bool inSequence = true;
 
             for (int i = 0; i < sequence.Item1.Length; i++)
             {
@@ -79,31 +76,19 @@ namespace RegexNotepad.Automaton
 
                 //Ran into an error state. Return result
                 if (errorStates.Contains(nextState))
-                    return occurences;
-
-                //The current state is an enter state (the beginning of the sequence)
-                if (enterStates.Contains(currentState))
-                {
-                    enterSuccesStateIndex = i;
-                    inSequence = true;
-                }
-
-                //If current state is in the sequence, add the char to the substring
-                if (inSequence)
-                    foundSubstring += sequence.Item1[i];
-
-                //Exiting the substring. Reset values
-                if (exitStates.Contains(currentState))
-                {
-                    inSequence = false;
-                    occurences.Add(new Tuple<string, int>(foundSubstring, enterSuccesStateIndex + sequence.Item2));
-                    foundSubstring = "";
-                    enterSuccesStateIndex = -1;
-                }
+                    return null;
 
                 currentState = nextState;
+
+                if (i == sequence.Item1.Length - 1)
+                {
+                    if (this.finalStates.Contains(currentState))
+                    {
+                        return sequence;
+                    }
+                }
             }
-            return occurences;
+            return null;
         }
     }
 }

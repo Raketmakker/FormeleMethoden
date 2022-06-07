@@ -92,7 +92,7 @@ namespace RegexNotepad
 
         public async void Find(SearchAutomaton<char> automaton)
         {
-            var taskList = new List<Task<List<Tuple<string, int>>>>();
+            var taskList = new List<Task<Tuple<string, int>>>();
             
             foreach (var searchable in Searchables)
             {
@@ -103,8 +103,10 @@ namespace RegexNotepad
 
             foreach (var task in taskList)
             {
-                Occurrences.AddRange(task.Result);
+                if(task.Result != null)
+                    Occurrences.Add(Tuple.Create(task.Result.Item1, task.Result.Item2));
             }
+
             foreach (var occurence in Occurrences)
                 System.Diagnostics.Debug.WriteLine(occurence);
         }
