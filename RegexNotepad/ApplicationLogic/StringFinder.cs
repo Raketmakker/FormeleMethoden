@@ -51,15 +51,44 @@ namespace RegexNotepad
             return automaton;
         }
 
-        //public Automaton GenerateContainsAutomaton(string contains)
+        //public async Task<SearchAutomaton<char>> GenerateContainsAutomaton(string contains)
         //{
+        //    var automaton = new SearchAutomaton<char>();
+            
+        //    for (int i = 0; i < contains.Length; i++)
+        //    {
+        //        //Transition from previous correct state to the next
+        //        automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), contains[i], char.Parse((i + 1).ToString())));
+        //        automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), contains[i], '0', true));
+        //    }
 
+        //    //Todo Return on same character hack
         //}
 
-        //public Automaton GenerateEndsWithAutomaton(string endsWith)
-        //{
+        public async Task<SearchAutomaton<char>> GenerateEndsWithAutomaton(string endsWith)
+        {
+            var automaton = new SearchAutomaton<char>();
 
-        //}
+            for (int i = 0; i < endsWith.Length; i++)
+            {
+                //Transition from previous correct state to the next
+                automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[i], char.Parse((i + 1).ToString())));
+                
+                //Return state to start of sequence
+                if(endsWith[i] != endsWith[0])
+                {
+                    automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[0], '1'));
+                }
+
+                //Inverted transition to start (0)
+                automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[i], '0', true));
+
+            }
+
+            automaton.DefineAsStartState('0');
+            automaton.DefineAsFinalState(char.Parse(endsWith.Length.ToString()));
+            return automaton;
+        }
 
         public async void Find(SearchAutomaton<char> automaton)
         {
@@ -77,7 +106,7 @@ namespace RegexNotepad
                 Occurrences.AddRange(task.Result);
             }
             foreach (var occurence in Occurrences)
-                System.Diagnostics.Debug.Write(occurence);
+                System.Diagnostics.Debug.WriteLine(occurence);
         }
     }
 }

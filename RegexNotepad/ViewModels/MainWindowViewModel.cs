@@ -86,8 +86,8 @@ namespace RegexNotepad.ViewModels
                     stringFinder = new TextFinder();
                     break;
             }
-            
             var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
+            // TODO GenerateContains & GenerateEndsWith functions
             var startWithTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
             await Task.WhenAll(searchablesTask, startWithTask);
             stringFinder.Find(startWithTask.Result);
