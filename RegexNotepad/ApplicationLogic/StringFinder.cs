@@ -51,19 +51,34 @@ namespace RegexNotepad
             return automaton;
         }
 
-        //public async Task<SearchAutomaton<char>> GenerateContainsAutomaton(string contains)
-        //{
-        //    var automaton = new SearchAutomaton<char>();
-            
-        //    for (int i = 0; i < contains.Length; i++)
-        //    {
-        //        //Transition from previous correct state to the next
-        //        automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), contains[i], char.Parse((i + 1).ToString())));
-        //        automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), contains[i], '0', true));
-        //    }
+        public async Task<SearchAutomaton<char>> GenerateContainsAutomatonAsync(string contains)
+        {
+            var automaton = new SearchAutomaton<char>();
 
-        //    //Todo Return on same character hack
-        //}
+            for (int i = 0; i < contains.Length; i++)
+            {
+                //Transition from previous correct state to the next
+                automaton.AddTransition(new AdvancedTransition<char>(ToChar(i), contains[i], ToChar(i + 1)));
+
+                //Return transition to start of sequence
+                if (contains[i] != contains[0])
+                {
+                    automaton.AddTransition(new AdvancedTransition<char>(ToChar(i), contains[0], '1'));
+                }
+
+                //Inverted transition to start (0)
+                automaton.AddTransition(new AdvancedTransition<char>(ToChar(i), contains[i], '0', true));
+            }
+
+            char finalState = ToChar(contains.Length);
+
+            //From final state with good character to start of sequence
+            automaton.AddTransition(new AdvancedTransition<char>(finalState, ' ', finalState, true));
+
+            automaton.DefineAsStartState('0');
+            automaton.DefineAsFinalState(finalState);
+            return automaton;
+        }
 
         public async Task<SearchAutomaton<char>> GenerateEndsWithAutomatonAsync(string endsWith)
         {
@@ -82,10 +97,11 @@ namespace RegexNotepad
 
                 //Inverted transition to start (0)
                 automaton.AddTransition(new AdvancedTransition<char>(char.Parse(i.ToString()), endsWith[i], '0', true));
-
             }
 
+            //From final state with good character to start of sequence
             automaton.AddTransition(new AdvancedTransition<char>(char.Parse(endsWith.Length.ToString()), endsWith[0], '1'));
+            //From final state with bad character to start state
             automaton.AddTransition(new AdvancedTransition<char>(char.Parse(endsWith.Length.ToString()), endsWith[0], '0', true));
 
             automaton.DefineAsStartState('0');
@@ -112,6 +128,11 @@ namespace RegexNotepad
 
             foreach (var occurence in Occurrences)
                 System.Diagnostics.Debug.WriteLine(occurence);
+        }
+        
+        private char ToChar(int number)
+        {
+            return Convert.ToChar(number + 48);
         }
     }
 }

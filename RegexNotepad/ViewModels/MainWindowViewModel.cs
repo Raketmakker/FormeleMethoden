@@ -93,11 +93,12 @@ namespace RegexNotepad.ViewModels
                     break;
             }
             var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
-            // TODO GenerateContains & GenerateEndsWith functions
             Task<SearchAutomaton<char>> searchTask = null;
 
             if (this.DataModel.StartBoxChecked)
                 searchTask = stringFinder.GenerateStartWithAutomatonAsync(this.DataModel.StartText);
+            else if (this.DataModel.ContainsBoxChecked)
+                searchTask = stringFinder.GenerateContainsAutomatonAsync(this.DataModel.ContainsText);
             else if (this.DataModel.EndBoxChecked)
                 searchTask = stringFinder.GenerateEndsWithAutomatonAsync(this.DataModel.EndText);
 
