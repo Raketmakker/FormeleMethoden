@@ -8,7 +8,7 @@ namespace RegexNotepad.Automaton
 {
     public class SplitAutomaton<T> : AutomatonBase<T> where T : IComparable<T>
     {
-        protected SortedSet<T> succesStates;
+        public SortedSet<T> succesStates;
 
         public SplitAutomaton() : base()
         {

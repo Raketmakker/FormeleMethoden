@@ -8,17 +8,15 @@ namespace RegexNotepad.Automaton
 {
     public class SearchAutomaton<T> : AutomatonBase<T> where T : IComparable<T>
     {
-        protected SortedSet<T> errorStates;
-        protected SortedSet<T> enterStates;
-        protected SortedSet<T> exitStates;
-        protected SortedSet<T> sequenceStates;
+        public SortedSet<T> errorStates;
+        public SortedSet<T> enterStates;
+        public SortedSet<T> exitStates;
 
         public SearchAutomaton() : base()
         {
             errorStates = new SortedSet<T>();
             enterStates = new SortedSet<T>();
             exitStates = new SortedSet<T>();
-            sequenceStates = new SortedSet<T>();
         }
 
         public void DefineAsErrorState(T t)
@@ -37,12 +35,6 @@ namespace RegexNotepad.Automaton
         {
             states.Add(t);
             exitStates.Add(t);
-        }
-
-        public void DefineAsSequenceState(T t)
-        {
-            states.Add(t);
-            sequenceStates.Add(t);
         }
 
         /// <summary>

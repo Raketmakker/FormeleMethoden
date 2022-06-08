@@ -9,10 +9,10 @@ namespace RegexNotepad.Automaton
 {
     public abstract class AutomatonBase<T> where T : IComparable<T>
     {
-        protected ISet<AdvancedTransition<T>> transitions;
-        protected SortedSet<T> states;
-        protected SortedSet<T> startStates;
-        protected SortedSet<T> finalStates;
+        public ISet<AdvancedTransition<T>> transitions;
+        public SortedSet<T> states;
+        public SortedSet<T> startStates;
+        public SortedSet<T> finalStates;
 
         public AutomatonBase()
         {

@@ -10,7 +10,7 @@ namespace RegexNotepad
     public abstract class StringFinder
     {
         private const int errorState = -1;
-        protected List<Tuple<string, int>> Searchables { get; set; }
+        public List<Tuple<string, int>> Searchables { get; set; }
 
         public List<Tuple<string, int>> Occurrences { get; } = new List<Tuple<string, int>>();
 
@@ -39,7 +39,6 @@ namespace RegexNotepad
             automaton.AddTransition(new AdvancedTransition<int>(finalState, ' ', finalState, true));
             //Recursive error state
             automaton.AddTransition(new AdvancedTransition<int>(errorState, ' ', errorState, true));
-
             //First state (0) is always the start state for a START WITH function
             automaton.DefineAsStartState(0);
             //The sequence starts at state 0
