@@ -132,6 +132,7 @@ namespace RegexNotepad.ViewModels
                 edited = edited.Replace(occurrence.Item1, this.DataModel.ReplaceText);
             }
             this.MainText.Text = edited;
+            this.DataModel.Text = edited;
         }
     }
 }
