@@ -16,5 +16,6 @@ namespace RegexNotepad.Models
         public string ContainsText { get; set; }
         public bool EndBoxChecked { get; set; }
         public string EndText { get; set; }
+        public string ReplaceText { get; set; }
     }
 }

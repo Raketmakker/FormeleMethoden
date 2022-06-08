@@ -14,13 +14,15 @@ namespace RegexNotepad.ViewModels
 {
     public class MainWindowViewModel : ObservableObject
     {
+        private TextBox MainText { get; set; }
         private TextBox StartTb { get; set; }
         private TextBox ContainsTb { get; set; }
         private TextBox EndTb { get; set; }
         public DataModel DataModel { get; set; } = null;
 
-        public MainWindowViewModel(TextBox startTextbox, TextBox containsTextbox, TextBox endTextbox)
+        public MainWindowViewModel(TextBox mainText, TextBox startTextbox, TextBox containsTextbox, TextBox endTextbox)
         {
+            this.MainText = mainText;
             this.StartTb = startTextbox;
             this.ContainsTb = containsTextbox;
             this.EndTb = endTextbox;
@@ -52,6 +54,11 @@ namespace RegexNotepad.ViewModels
             get { return new RelayCommand(() => { Find(); }); }
         }
         
+        public ICommand ReplaceCommand
+        {
+            get { return new RelayCommand(() => { Replace(); }); }
+        }
+
         private void SetTextType(TextType textType)
         {
             this.DataModel.Type = textType;
@@ -63,16 +70,16 @@ namespace RegexNotepad.ViewModels
         ///     TODO:   Make it work for sentences, text. Combine automatons to search
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        private async void Find()
+        private async Task<StringFinder> Find()
         {
             if (this.DataModel.Text == null)
-                return;
+                return null;
 
             if (!(this.DataModel.StartText != null && this.DataModel.StartBoxChecked ||
                 this.DataModel.ContainsText != null && this.DataModel.ContainsBoxChecked ||
                 this.DataModel.EndText != null && this.DataModel.EndBoxChecked))
             {
-                return;
+                return null;
             }
 
             StringFinder stringFinder = null;
@@ -101,6 +108,8 @@ namespace RegexNotepad.ViewModels
 
             await Task.WhenAll(searchablesTask, searchTask);
             stringFinder.Find(searchTask.Result);
+
+            return stringFinder;
         }
 
         private void Clear()
@@ -108,6 +117,21 @@ namespace RegexNotepad.ViewModels
             this.StartTb.Clear();
             this.ContainsTb.Clear();
             this.EndTb.Clear();
+        }
+
+        private async void Replace()
+        {
+            if (this.DataModel.ReplaceText == null)
+                return;
+
+            StringFinder sf = Find().Result;
+            string edited = this.DataModel.Text;
+
+            foreach(var occurrence in sf.Occurrences)
+            {
+                edited = edited.Replace(occurrence.Item1, this.DataModel.ReplaceText);
+            }
+            this.MainText.Text = edited;
         }
     }
 }

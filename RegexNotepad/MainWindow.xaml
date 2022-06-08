@@ -15,12 +15,13 @@
         <TextBox 
             x:Name="textBox" 
             Grid.Column="0" 
-            Text="{Binding DataModel.Text}"
+            Text="{Binding DataModel.Text, Mode=TwoWay}"
             TextWrapping="Wrap"
             AcceptsReturn="True"
             VerticalScrollBarVisibility="Visible"/>
         <Grid Grid.Column="1" Name="toolGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -97,6 +98,14 @@
             </Grid>
             <!--Clear and find buttons-->
             <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="replaceText" Margin="10" Grid.Column="0" Text="{Binding DataModel.ReplaceText}"/>
+                <Button Margin="10" Grid.Column="1" Content="Replace" Command="{Binding ReplaceCommand}"/>
+            </Grid>
+            <Grid Grid.Row="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
