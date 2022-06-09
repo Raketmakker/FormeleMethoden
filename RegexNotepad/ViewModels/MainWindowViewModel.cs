@@ -6,6 +6,7 @@ using RegexNotepad.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -66,7 +67,14 @@ namespace RegexNotepad.ViewModels
 
         public ICommand FindCommand
         {
-            get { return new RelayCommand(() => { Find(); }); }
+            get 
+            { 
+                return new RelayCommand(async () => 
+                { 
+                    var sf = await Find(); 
+                    ColorResult(sf);
+                }); 
+            }
         }
         
         public ICommand ReplaceCommand
@@ -140,6 +148,10 @@ namespace RegexNotepad.ViewModels
                 return;
 
             StringFinder sf = Find().Result;
+
+            if (sf == null)
+                return;
+
             string edited = this.MainText;
 
             foreach(var occurrence in sf.Occurrences)
@@ -147,6 +159,39 @@ namespace RegexNotepad.ViewModels
                 edited = edited.Replace(occurrence.Item1, this.DataModel.ReplaceText);
             }
             this.MainText = edited;
+        }
+
+        private void ColorResult(StringFinder sf)
+        {
+            if (sf == null)
+                return;
+
+            if (sf.Occurrences.Count <= 0)
+                return;
+
+            int idx = 0;
+            string text = this.MainText;
+
+            MainTb.Document.Blocks.Clear();
+
+            foreach (var occ in sf.Occurrences)
+            {
+                if(occ.Item2 - idx - 1 > 0)
+                {
+                    TextRange startRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
+                    startRange.Text = text.Substring(idx, occ.Item2 - idx);
+                    startRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+                }
+
+                TextRange colorRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
+                colorRange.Text = text.Substring(occ.Item2, occ.Item1.Length);
+                colorRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                idx = occ.Item2 + occ.Item1.Length;
+            }
+            int finalStart = sf.Occurrences[sf.Occurrences.Count - 1].Item2 + sf.Occurrences[sf.Occurrences.Count - 1].Item1.Length;
+            TextRange lastRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
+            lastRange.Text = text.Substring(finalStart, text.Length - finalStart);
+            lastRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
         }
     }
 }
