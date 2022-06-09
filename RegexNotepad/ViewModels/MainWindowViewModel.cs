@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using static RegexNotepad.Models.DataModel;
 
 namespace RegexNotepad.ViewModels
@@ -180,18 +181,18 @@ namespace RegexNotepad.ViewModels
                 {
                     TextRange startRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
                     startRange.Text = text.Substring(idx, occ.Item2 - idx);
-                    startRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+                    startRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.White);
                 }
 
                 TextRange colorRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
                 colorRange.Text = text.Substring(occ.Item2, occ.Item1.Length);
-                colorRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                colorRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Red);
                 idx = occ.Item2 + occ.Item1.Length;
             }
             int finalStart = sf.Occurrences[sf.Occurrences.Count - 1].Item2 + sf.Occurrences[sf.Occurrences.Count - 1].Item1.Length;
             TextRange lastRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
             lastRange.Text = text.Substring(finalStart, text.Length - finalStart);
-            lastRange.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+            lastRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.White);
         }
     }
 }
