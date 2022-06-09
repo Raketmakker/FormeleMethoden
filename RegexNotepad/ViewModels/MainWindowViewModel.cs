@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using static RegexNotepad.Models.DataModel;
 
@@ -14,15 +15,29 @@ namespace RegexNotepad.ViewModels
 {
     public class MainWindowViewModel : ObservableObject
     {
-        private TextBox MainText { get; set; }
+        private RichTextBox MainTb { get; set; }
+        private string MainText
+        {
+            get
+            {
+                TextRange range = new TextRange(MainTb.Document.ContentStart, MainTb.Document.ContentEnd);
+                return range.Text;
+            }
+            set
+            {
+                MainTb.Document.Blocks.Clear();
+                MainTb.Document.Blocks.Add(new Paragraph(new Run(value)));
+            }
+        }
+
         private TextBox StartTb { get; set; }
         private TextBox ContainsTb { get; set; }
         private TextBox EndTb { get; set; }
         public DataModel DataModel { get; set; } = null;
 
-        public MainWindowViewModel(TextBox mainText, TextBox startTextbox, TextBox containsTextbox, TextBox endTextbox)
+        public MainWindowViewModel(RichTextBox mainTb, TextBox startTextbox, TextBox containsTextbox, TextBox endTextbox)
         {
-            this.MainText = mainText;
+            this.MainTb = mainTb;
             this.StartTb = startTextbox;
             this.ContainsTb = containsTextbox;
             this.EndTb = endTextbox;
@@ -72,7 +87,7 @@ namespace RegexNotepad.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private async Task<StringFinder> Find()
         {
-            if (this.DataModel.Text == null)
+            if (this.MainText == null)
                 return null;
 
             if (!(this.DataModel.StartText != null && this.DataModel.StartBoxChecked ||
@@ -96,7 +111,7 @@ namespace RegexNotepad.ViewModels
                     stringFinder = new TextFinder();
                     break;
             }
-            var searchablesTask = stringFinder.CreateSearchablesAsync(this.DataModel.Text);
+            var searchablesTask = stringFinder.CreateSearchablesAsync(this.MainText);
             Task<SearchAutomaton<int>> searchTask = null;
 
             if (this.DataModel.StartBoxChecked)
@@ -125,14 +140,13 @@ namespace RegexNotepad.ViewModels
                 return;
 
             StringFinder sf = Find().Result;
-            string edited = this.DataModel.Text;
+            string edited = this.MainText;
 
             foreach(var occurrence in sf.Occurrences)
             {
                 edited = edited.Replace(occurrence.Item1, this.DataModel.ReplaceText);
             }
-            this.MainText.Text = edited;
-            this.DataModel.Text = edited;
+            this.MainText = edited;
         }
     }
 }
