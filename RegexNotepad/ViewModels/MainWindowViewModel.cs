@@ -186,7 +186,7 @@ namespace RegexNotepad.ViewModels
 
                 TextRange colorRange = new TextRange(MainTb.Document.ContentEnd, MainTb.Document.ContentEnd);
                 colorRange.Text = text.Substring(occ.Item2, occ.Item1.Length);
-                colorRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Red);
+                colorRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.LightGreen);
                 idx = occ.Item2 + occ.Item1.Length;
             }
             int finalStart = sf.Occurrences[sf.Occurrences.Count - 1].Item2 + sf.Occurrences[sf.Occurrences.Count - 1].Item1.Length;
